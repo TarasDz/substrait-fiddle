@@ -16,6 +16,7 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    if: "github.ref == 'refs/heads/main'"
     steps:
       - name: "Check if secrets exists"
         env:
@@ -24,10 +25,10 @@ jobs:
           REMOTE_USER: ${{ secrets.DEPLOY_USERNAME }}
           TARGET: ${{ secrets.DEPLOY_TARGET_DIR }}
         if: >
-          ${{ env.DEPLOY_SSH_KEY == '' }} &&
-          ${{ env.DEPLOY_HOST_DNS == '' }} &&
-          ${{ env.DEPLOY_USERNAME == '' }} &&
-          ${{ env.DEPLOY_TARGET_DIR == '' }}
+          ${{ env.DEPLOY_SSH_KEY != null }} &&
+          ${{ env.DEPLOY_HOST_DNS != null }} &&
+          ${{ env.DEPLOY_USERNAME != null }} &&
+          ${{ env.DEPLOY_TARGET_DIR != null }}
         run: 'echo "The one or more secrets has not been made, please go to \"settings > secrets > actions\" to create it"'
       - uses: actions/checkout@v3
       - run: rm -rf .git
