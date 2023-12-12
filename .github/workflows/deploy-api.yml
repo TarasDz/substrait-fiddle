@@ -22,10 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     if: >
       ${{ github.ref == 'refs/heads/main' &&
-      env.SSH_PRIVATE_KEY &&
-      env.REMOTE_HOST &&
-      env.REMOTE_USER &&
-      env.TARGET }}
+      env.SSH_PRIVATE_KEY == '' &&
+      env.REMOTE_HOST == '' &&
+      env.REMOTE_USER == '' &&
+      env.TARGET == '' }}
     steps:
       - uses: actions/checkout@v3
       - run: rm -rf .git
