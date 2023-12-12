@@ -29,6 +29,7 @@ jobs:
           ${{ env.DEPLOY_HOST_DNS != null }} &&
           ${{ env.DEPLOY_USERNAME != null }} &&
           ${{ env.DEPLOY_TARGET_DIR != null }}
+        run: '"The one or more secrets has not been made, please go to \"settings > secrets > actions\" to create it"'
       - uses: actions/checkout@v3
       - run: rm -rf .git
       - uses: easingthemes/ssh-deploy@main
