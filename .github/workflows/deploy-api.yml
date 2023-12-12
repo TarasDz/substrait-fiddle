@@ -18,10 +18,10 @@ jobs:
     runs-on: ubuntu-latest
     if: >
       github.ref == 'refs/heads/main' &&
-      env.DEPLOY_SSH_KEY &&
-      env.DEPLOY_HOST_DNS &&
-      env.DEPLOY_USERNAME &&
-      env.DEPLOY_TARGET_DIR
+      ${{ secrets.DEPLOY_SSH_KEY }} &&
+      ${{ secrets.DEPLOY_HOST_DNS }} &&
+      ${{ secrets.DEPLOY_USERNAME }} &&
+      ${{ secrets.DEPLOY_TARGET_DIR }}
     steps:
       - uses: actions/checkout@v3
       - run: rm -rf .git
