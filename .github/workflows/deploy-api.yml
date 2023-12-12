@@ -23,8 +23,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.DEPLOY_HOST_DNS }}
           REMOTE_USER: ${{ secrets.DEPLOY_USERNAME }}
           TARGET: ${{ secrets.DEPLOY_TARGET_DIR }}
-          TEST: ${{ secret.TEST_SECRET }}
-        if: ${{ env.TEST_SECRET == '' }}
+        if: ${{ env.DEPLOY_SSH_KEY == '' }}
         run: 'echo "echo the secret \"SSH_PRIVATE_KEY\" has not been made; echo please go to \"settings \> secrets \> actions\" to create it"'
       - uses: actions/checkout@v3
       - run: rm -rf .git
