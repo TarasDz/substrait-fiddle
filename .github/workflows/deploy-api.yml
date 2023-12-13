@@ -21,7 +21,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     # if: "github.ref == 'refs/heads/main'"
-    if: ${{ env.DEPLOY_SSH_KEY != '' }}
+    if: ${{ env.SSH_PRIVATE_KEY != '' }}
     steps:
       - name: "Check if secrets exists"
         if: ${{ env.SSH_PRIVATE_KEY == 'true' }}
