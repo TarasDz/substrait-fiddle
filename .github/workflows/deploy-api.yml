@@ -24,7 +24,7 @@ jobs:
     # if: "github.ref == 'refs/heads/main'"
     steps:
       - name: "Check if secrets exists"
-        if: ${{ env.SSH_PRIVATE_KEY == 'false' }} && ${{ env.REMOTE_USER == 'true' }} && ${{ env.REMOTE_HOST == 'true' }} && ${{ env.TARGET == 'true' }}   
+        if: ${{ env.SSH_PRIVATE_KEY == 'true' }} && ${{ env.REMOTE_USER == 'true' }} && ${{ env.REMOTE_HOST == 'true' }} && ${{ env.TARGET == 'true' }}   
       - uses: actions/checkout@v3
       - run: rm -rf .git
       - uses: easingthemes/ssh-deploy@main
