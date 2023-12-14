@@ -21,7 +21,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     # if: "github.ref == 'refs/heads/main'"
-    if: ${{ env.SSH_PRIVATE_KEY == 'true' }} # && ${{ env.REMOTE_USER == 'true' }} && ${{ env.REMOTE_HOST == 'true' }} && ${{ env.TARGET == 'true' }}   
+    if: ${{ env.SSH_PRIVATE_KEY == 'true' && env.REMOTE_USER == 'true' && env.REMOTE_HOST == 'true' && env.TARGET == 'true' }}   
     steps:
       #- name: "Check if secrets exists"
         #if: ${{ env.SSH_PRIVATE_KEY == 'true' }} # && ${{ env.REMOTE_USER == 'true' }} && ${{ env.REMOTE_HOST == 'true' }} && ${{ env.TARGET == 'true' }}   
