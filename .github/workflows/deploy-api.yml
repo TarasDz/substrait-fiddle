@@ -24,14 +24,7 @@ jobs:
     # if: "github.ref == 'refs/heads/main'"
     steps:
       - name: "Check if secrets exists"
-        if: ${{ env.SSH_PRIVATE_KEY == 'false' }} && ${{ env.REMOTE_USER == 'true' }} && ${{ env.REMOTE_HOST == 'true' }} && ${{ env.TARGET == 'true' }} && ${{ env.TEST == 'false' }}
-        uses: actions/checkout@v3
-        #run: |
-        #  if [ "${{ secrets.DEPLOY_SSH_KEY }}" && "${{ secrets.DEPLOY_HOST_DNS }}" && "${{ secrets.DEPLOY_USERNAME }}" && "${{ secrets.DEPLOY_TARGET_DIR }}" != '' ]; then
-        #    echo "available=true" >> "All secrets exists";
-        #  else
-        #    echo "available=false" >> "The one or more secrets has not been made, please go to \"settings > secrets > actions\" to create it";
-        #  fi      
+        if: ${{ env.SSH_PRIVATE_KEY == 'false' }} && ${{ env.REMOTE_USER == 'true' }} && ${{ env.REMOTE_HOST == 'true' }} && ${{ env.TARGET == 'true' }}   
       - uses: actions/checkout@v3
       - run: rm -rf .git
       - uses: easingthemes/ssh-deploy@main
