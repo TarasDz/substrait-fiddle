@@ -16,7 +16,6 @@ env:
   REMOTE_HOST: ${{ secrets.DEPLOY_HOST_DNS != '' }}
   REMOTE_USER: ${{ secrets.DEPLOY_USERNAME != '' }}
   TARGET: ${{ secrets.DEPLOY_TARGET_DIR != '' }}
-  TEST: ${{ secters.DEPLOY_TEST !='' }}
 
 jobs:
   deploy:
