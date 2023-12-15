@@ -23,12 +23,10 @@ jobs:
       TARGET: ${{ secrets.DEPLOY_TARGET_DIR }}
     # if: "github.ref == 'refs/heads/main'"
     steps:
-      - name: "Check if secrets exists"
-      - if: ${{ env.SSH_PRIVATE_KEY && env.REMOTE_USER && env.REMOTE_HOST && env.TARGET }}
-        run: echo "Secrets exists"
       - uses: actions/checkout@v3
       - run: rm -rf .git
       - uses: easingthemes/ssh-deploy@main
+        if: ${{ env.SSH_PRIVATE_KEY && env.REMOTE_USER && env.REMOTE_HOST && env.TARGET }}
         env:
           ARGS: -rlgoDzvc -i --delete
           SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
