@@ -16,12 +16,7 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    #env:
-     # SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
-     # REMOTE_HOST: ${{ secrets.DEPLOY_HOST_DNS }}
-     # REMOTE_USER: ${{ secrets.DEPLOY_USERNAME }}
-     # TARGET: ${{ secrets.DEPLOY_TARGET_DIR }}
-    # if: "github.ref == 'refs/heads/main'"
+    if: "github.ref == 'refs/heads/main'"
     steps:
       - uses: actions/checkout@v3
       - run: rm -rf .git
