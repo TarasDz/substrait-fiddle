@@ -17,15 +17,15 @@ jobs:
     - run: rm -rf .git
     # - name: Install dependencies
     #   run: make install-dep
-    - uses: astappiev/docker-compose-remote-action@master
-      name: Docker-Compose Remote Deployment
+    - name: Build and push Docker images
+      run: docker-compose up
       with:
           ARGS: -rlgoDzvc -i --delete
           # SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
           # REMOTE_HOST: ${{ secrets.DEPLOY_HOST_DNS }}
           # REMOTE_USER: ${{ secrets.DEPLOY_USERNAME }}
           ssh_host: ${{ secrets.DEPLOY_HOST_DNS }}
-          ssh_user: ubuntu
+          ssh_user: ${{ secrets.DEPLOY_USERNAME }}
           ssh_private_key: ${{ secrets.DEPLOY_SSH_KEY }}
           docker_compose_prefix: substrait-fiddle
           ssh_host_public_key: ${{ secrets.DEPLOY_PUBLIC_KEY }}
