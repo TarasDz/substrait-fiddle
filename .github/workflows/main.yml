@@ -27,7 +27,7 @@ jobs:
           SCRIPT_AFTER: sudo chown -R www-data:www-data ${{ secrets.DEPLOY_TARGET_DIR }} && sudo supervisorctl start substrait-fiddle:*
           TARGET: ${{ secrets.DEPLOY_TARGET_DIR }}
           ssh_host: ${{ secrets.DEPLOY_HOST_DNS }}
-          ssh_user: ${{ secrets.DEPLOY_USERNAME }}
+          ssh_user: ubuntu
           ssh_private_key: ${{ secrets.DEPLOY_SSH_KEY }}
           docker_compose_prefix: substrait-fiddle
           ssh_jump_public_key: ~/.ssh/known_hosts
