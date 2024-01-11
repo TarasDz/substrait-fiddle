@@ -19,7 +19,7 @@ jobs:
     #   run: make install-dep
     - name: Build and push Docker images
       run: docker-compose up
-      with:
+      env:
           ARGS: -rlgoDzvc -i --delete
           # SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
           # REMOTE_HOST: ${{ secrets.DEPLOY_HOST_DNS }}
