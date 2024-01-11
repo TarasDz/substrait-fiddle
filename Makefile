@@ -8,4 +8,3 @@ install-dep:
 	sudo systemctl start docker
 	sudo usermod -aG docker ubuntu
 	sudo apt install npm -y
-	sudo docker-compose up
