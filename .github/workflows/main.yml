@@ -17,7 +17,7 @@ jobs:
     - run: rm -rf .git
     - name: Install dependencies
       run: make install-dep
-    - uses: astappiev/docker-compose-remote-action@v2
+    - uses: astappiev/docker-compose-remote-action@v3
       name: Docker-Compose Remote Deployment
       with:
           ARGS: -rlgoDzvc -i --delete
