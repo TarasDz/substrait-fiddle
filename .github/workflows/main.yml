@@ -15,8 +15,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - run: rm -rf .git
-    - name: Install dependencies
-      run: make install-dep
+    # - name: Install dependencies
+    #   run: make install-dep
     - uses: astappiev/docker-compose-remote-action@master
       name: Docker-Compose Remote Deployment
       with:
