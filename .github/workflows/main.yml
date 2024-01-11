@@ -31,3 +31,4 @@ jobs:
           ssh_private_key: ${{ secrets.DEPLOY_SSH_KEY }}
           docker_compose_prefix: substrait-fiddle
           ssh_jump_public_key: ~/.ssh/known_hosts
+          ssh_host_public_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAf/5qMOSmVrqaA3wuEB9o+NRXzEwSOrYwXMPklMSyG6pvzvM3vfc7bUasuDEX0Pdooa0JiG2VSCtoYeLEXqx1mxxI6q59sEFBYQI8q3k+RO1UR3NN4ByCs7+70XrbfubjKtpZY38PUrOhneh7uNUzm0VdXqR5BnjcO/douDxsfJ0SpBULEUHwNQxawFqUyWPuXFIZTPytDZGgRpLhUYdxXCrKtODsbvl7cbssB+70cUEs0yb0LG5H1Shvfr6OIq4ZEYGgHgtPJo7fQhXxebw4ChKtMvouQ58422myHmQKUvvI+SmiJMpQyLRAcsoJKdpwnp0wxHJzx0Dn8Rwp+ggX substrait-fiddle-production-key-pair
