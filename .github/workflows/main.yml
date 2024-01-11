@@ -29,4 +29,3 @@ jobs:
           ssh_private_key: ${{ secrets.DEPLOY_SSH_KEY }}
           docker_compose_prefix: substrait-fiddle
           ssh_host_public_key: ${{ secrets.DEPLOY_PUBLIC_KEY }}
-          
