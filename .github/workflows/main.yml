@@ -38,6 +38,8 @@ jobs:
     #   run: sudo chown docker-deploy:docker-deploy /var/lib/docker-deploy/.ssh && sudo chmod 0500 /var/lib/docker-deploy/.ssh
     - name: Add SSH key
       run: |
+        sudo pwd
+        sudo ls -la
         sudo cat ~/.ssh/authorized_keys >> /var/lib/docker-deploy/.ssh/authorized_keys
         sudo install -o docker-deploy -g docker-deploy -m 0600 deploy_key.pub /var/lib/docker-deploy/.ssh/authorized_keys
     
