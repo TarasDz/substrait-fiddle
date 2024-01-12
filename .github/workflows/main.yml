@@ -22,8 +22,8 @@ jobs:
       run: sudo apt update && sudo apt upgrade -y
     - name: Install Docker
       run: sudo apt install docker -y
-    - name: Install Docker.io
-      run: sudo apt install docker.io -y
+    # - name: Install Docker.io
+    #   run: sudo apt install docker.io -y
     - name: Install Docker-Compose
       run: sudo apt install docker-compose -y
     - name: Stop and Start Docker service
