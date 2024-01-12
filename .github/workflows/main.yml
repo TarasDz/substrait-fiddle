@@ -24,8 +24,8 @@ jobs:
       run: sudo apt install docker -y
     # - name: Install Docker.io
     #   run: sudo apt install docker.io -y
-    - name: Install Docker-Compose
-      run: sudo apt install docker-compose -y
+    # - name: Install Docker-Compose
+    #   run: sudo apt install docker-compose -y
     - name: Stop and Start Docker service
       run: systemctl stop docker && systemctl start docker
     - name: Install NPM
