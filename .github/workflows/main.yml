@@ -18,29 +18,30 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: Update and upgrade packages
-      run: sudo apt update && sudo apt upgrade -y
-    - name: Install Docker
-      run: sudo apt install docker -y
-    # - name: Install Docker.io
-    #   run: sudo apt install docker.io -y
-    - name: Install Docker-Compose
-      run: sudo apt install docker-compose -y
-    # - name: Stop and Start Docker service
-    #   run: systemctl stop docker && systemctl start docker
-    - name: Install NPM
-      run: sudo apt install npm -y
-    - name: Create deployment user
-      run: sudo useradd -m -b /var/lib -G docker docker-deploy
-    - name: Configure deployment directory
-      run: sudo mkdir /var/lib/docker-deploy/.ssh
-    - name: Change ownership and permissions
-      run: sudo chown docker-deploy:docker-deploy /var/lib/docker-deploy/.ssh && sudo chmod 0500 /var/lib/docker-deploy/.ssh
+    # - name: Update and upgrade packages
+    #   run: sudo apt update && sudo apt upgrade -y
+    # - name: Install Docker
+    #   run: sudo apt install docker -y
+    # # - name: Install Docker.io
+    # #   run: sudo apt install docker.io -y
+    # - name: Install Docker-Compose
+    #   run: sudo apt install docker-compose -y
+    # # - name: Stop and Start Docker service
+    # #   run: systemctl stop docker && systemctl start docker
+    # - name: Install NPM
+    #   run: sudo apt install npm -y
+    # - name: Create deployment user
+    #   run: sudo useradd -m -b /var/lib -G docker docker-deploy
+    # - name: Configure deployment directory
+    #   run: sudo mkdir /var/lib/docker-deploy/.ssh
+    # - name: Change ownership and permissions
+    #   run: sudo chown docker-deploy:docker-deploy /var/lib/docker-deploy/.ssh && sudo chmod 0500 /var/lib/docker-deploy/.ssh
     - name: Add SSH key
-      run: |
-        sudo echo ${{ secrets.DEPLOY_PUBLIC_KEY }} > /var/lib/docker-deploy/.ssh/authorized_keys
-        sudo cat deploy_key.pub >> /var/lib/docker-deploy/.ssh/authorized_keys
-        sudo install -o docker-deploy -g docker-deploy -m 0600 deploy_key.pub /var/lib/docker-deploy/.ssh/authorized_keys
+      run: sudo echo ${{ secrets.DEPLOY_PUBLIC_KEY }} > /var/lib/docker-deploy/.ssh/authorized_keys
+    - name: Add SSH key to the user
+      run: sudo cat deploy_key.pub >> /var/lib/docker-deploy/.ssh/authorized_keys
+    - name: Install user SSH key
+      run: sudo install -o docker-deploy -g docker-deploy -m 0600 deploy_key.pub /var/lib/docker-deploy/.ssh/authorized_keys
     
     - uses: alex-ac/github-action-ssh-docker-compose@master
       name: Docker-Compose Remote Deployment
