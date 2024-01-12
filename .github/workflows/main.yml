@@ -35,7 +35,7 @@ jobs:
     - name: Configure deployment directory
       run: sudo mkdir /var/lib/docker-deploy/.ssh
     - name: Change ownership and permissions
-      run: sudo chown docker-deploy:docker-deploy /var/lib/docker-deploy/.ssh && chmod 0500 /var/lib/docker-deploy/.ssh
+      run: sudo chown docker-deploy:docker-deploy /var/lib/docker-deploy/.ssh && sudo chmod 0500 /var/lib/docker-deploy/.ssh
     - name: Add SSH key
       run: |
         sudo echo ${{ secrets.DEPLOY_PUBLIC_KEY }} > /var/lib/docker-deploy/.ssh/authorized_keys
