@@ -8,7 +8,7 @@ on:
 env:
   VITE_SESSION_SECRET: ${{ secrets.VITE_SESSION_SECRET }}
   DUCKDB_POOL_SIZE: 5
-  REMOTE_USER: ${{ BASE_USER }}
+  REMOTE_USER: ${{ secrets.BASE_USER }}
 
 
 jobs:
@@ -38,7 +38,7 @@ jobs:
       run: chown docker-deploy:docker-deploy /var/lib/docker-deploy/.ssh && chmod 0500 /var/lib/docker-deploy/.ssh
     - name: Add SSH key
       run: |
-        echo ${{ DEPLOY_PUBLIC_KEY }} > /var/lib/docker-deploy/.ssh/authorized_keys
+        echo ${{ secrets.DEPLOY_PUBLIC_KEY }} > /var/lib/docker-deploy/.ssh/authorized_keys
         cat deploy_key.pub >> /var/lib/docker-deploy/.ssh/authorized_keys
         sudo install -o docker-deploy -g docker-deploy -m 0600 deploy_key.pub /var/lib/docker-deploy/.ssh/authorized_keys
     
