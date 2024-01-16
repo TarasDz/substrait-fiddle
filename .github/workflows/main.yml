@@ -11,7 +11,7 @@ env:
   REMOTE_USER: ${{ secrets.BASE_USER }}
   ssh_user: ${{ secrets.DEPLOY_USERNAME }}
   ssh_host: ${{ secrets.DEPLOY_HOST_DNS }}  
-  PUB_KEY: ${{ secrets.DEPLOY_PUB_KEY }}
+  pub_key: ${{ secrets.DEPLOY_PUBLIC_KEY }}
 
 
 jobs:
