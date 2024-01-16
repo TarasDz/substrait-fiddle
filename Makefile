@@ -12,6 +12,8 @@ install-dep:
 	sudo mkdir /var/lib/docker-deploy/.ssh
 	sudo chown docker-deploy:docker-deploy /var/lib/docker-deploy/.ssh && sudo chmod 0500 /var/lib/docker-deploy/.ssh
 	sudo cat /home/ubuntu/.ssh/authorized_keys >> deploy_key.pub
+	sudo ls -la
+	pwd
 	sudo install -o docker-deploy -g docker-deploy -m 0600 deploy_key.pub /var/lib/docker-deploy/.ssh/authorized_keys
 	sudo chmod 0500 /var/lib/docker-deploy/.ssh
 	rm deploy_key.pub
