@@ -58,15 +58,15 @@ jobs:
         key: ${{ secrets.DEPLOY_SSH_KEY }}
         port: 22
         script: |
-          sudo useradd -m -b /var/lib -G docker $SSH_USER
+          sudo useradd -m -b /var/lib -G docker ${{ env.SSH_USER }}
           export SSH_USER=${{ secrets.DEPLOY_USERNAME }}
           export PUB_KEY=${{ secrets.DEPLOY_PUBLIC_KEY }}
-          echo $SSH_USER
           echo ${{ env.SSH_USER }}
-          sudo chown $SSH_USER:$SSH_USER /var/lib/$SSH_USER/.ssh && sudo chmod 0500 /var/lib/$SSH_USER/.ssh
-          echo $PUB_KEY > deploy_key.pub
-          sudo install -o $SSH_USER -g $SSH_USER -m 0600 deploy_key.pub /var/lib/$SSH_USER/.ssh/authorized_keys
-          sudo chmod 0500 /var/lib/$SSH_USER/.ssh
+          echo ${{ env.PUB_KEY }}
+          sudo chown ${{ env.SSH_USER }}:${{ env.SSH_USER }} /var/lib/${{ env.SSH_USER }}/.ssh && sudo chmod 0500 /var/lib/${{ env.SSH_USER }}/.ssh
+          echo ${{ env.PUB_KEY }} > deploy_key.pub
+          sudo install -o ${{ env.SSH_USER }} -g ${{ env.SSH_USER }} -m 0600 deploy_key.pub /var/lib/${{ env.SSH_USER }}/.ssh/authorized_keys
+          sudo chmod 0500 /var/lib/${{ env.SSH_USER }}/.ssh
           rm deploy_key.pub
       env:
         SSH_USER: ${{ secrets.DEPLOY_USERNAME }}
