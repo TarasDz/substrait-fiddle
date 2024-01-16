@@ -76,3 +76,4 @@ jobs:
         ssh_private_key: ${{ secrets.DEPLOY_SSH_KEY }}
         ssh_user: ${{ secrets.DEPLOY_USERNAME }}
         docker_compose_prefix: testing
+
