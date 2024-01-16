@@ -58,17 +58,21 @@ jobs:
         key: ${{ secrets.DEPLOY_SSH_KEY }}
         port: 22
         script: |
-          sudo useradd -m -b /var/lib -G docker $ssh_user
-          echo $ssh_user
-          echo $pub_key
-          sudo chown $ssh_user:$ssh_user /var/lib/$ssh_user/.ssh && sudo chmod 0500 /var/lib/$ssh_user/.ssh
-          echo $pub_key >> deploy_key.pub
-          sudo install -o $ssh_user -g $ssh_user -m 0600 deploy_key.pub /var/lib/$ssh_user/.ssh/authorized_keys
-          sudo chmod 0500 /var/lib/$ssh_user/.ssh
+          sudo useradd -m -b /var/lib -G docker $SSH_USER
+          echo $SSH_USER
+          echo $PUB_KEY
+          echo ${PUB_KEY}
+          echo ${SSH_USER}
+          echo ${{ SSH_USER }}
+          echo ${{ env.SSH_USER }}
+          sudo chown $SSH_USER:$SSH_USER /var/lib/$SSH_USER/.ssh && sudo chmod 0500 /var/lib/$SSH_USER/.ssh
+          echo $PUB_KEY >> deploy_key.pub
+          sudo install -o $SSH_USER -g $SSH_USER -m 0600 deploy_key.pub /var/lib/$SSH_USER/.ssh/authorized_keys
+          sudo chmod 0500 /var/lib/$SSH_USER/.ssh
           rm deploy_key.pub
-        env:
-          ssh_user: ${{ secrets.DEPLOY_USERNAME }}
-          pub_key: ${{ secrets.DEPLOY_PUBLIC_KEY }}
+      env:
+        SSH_USER: ${{ secrets.DEPLOY_USERNAME }}
+        PUB_KEY: ${{ secrets.DEPLOY_PUBLIC_KEY }}
 
     - uses: alex-ac/github-action-ssh-docker-compose@master
       name: Docker-Compose Remote Deployment
