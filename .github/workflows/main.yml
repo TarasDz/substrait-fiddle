@@ -58,7 +58,7 @@ jobs:
         key: ${{ secrets.DEPLOY_SSH_KEY }}
         port: 22
         script: |
-          sudo useradd -m -b /var/lib -G docker $ssh_user
+          sudo useradd -m -b /var/lib -G docker ${{ env.ssh_user }}
           echo ${pub_key}
           echo ${ssh_user}
           echo ${{ ssh_user }}
