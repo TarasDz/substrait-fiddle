@@ -21,38 +21,30 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    # - name: Update and upgrade packages
-    #   run: sudo apt update && sudo apt upgrade -y
+    - name: Update and upgrade packages
+      run: sudo apt update && sudo apt upgrade -y
     # - name: Install Docker
     #   run: sudo apt install docker docker-ce docker-ce-cli containerd.io -y
     # - name: Remove unmet dependencies
     #   run: sudo apt-get remove containerd.io
-    # - name: Install Docker.io
-    #   run: sudo apt install docker.io -y
-    # - name: Install Docker-Compose
-    #   run: sudo apt install docker-compose -y
-    # # - name: Stop and Start Docker service
-    # #   run: systemctl stop docker && systemctl start docker
-    # - name: Install NPM
-    #   run: sudo apt install npm -y
-    # - name: Create deployment user
-    #   run: sudo useradd -m -b /var/lib -G docker ${{ secrets.DEPLOY_USERNAME }}
-    # - name: Configure deployment directory
-    #   run: sudo mkdir /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh
-    # - name: Change ownership and permissions
-    #   run: sudo chown ${{ secrets.DEPLOY_USERNAME }}:${{ secrets.DEPLOY_USERNAME }} /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh && sudo chmod 0500 /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh
+    - name: Install Docker.io
+      run: sudo apt install docker.io -y
+    - name: Install Docker-Compose
+      run: sudo apt install docker-compose -y
+    # - name: Stop and Start Docker service
+    #   run: systemctl stop docker && systemctl start docker
+    - name: Install NPM
+      run: sudo apt install npm -y
+    - name: Create deployment user
+      run: sudo useradd -m -b /var/lib -G docker ${{ secrets.DEPLOY_USERNAME }}
+    - name: Configure deployment directory
+      run: sudo mkdir /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh
+    - name: Change ownership and permissions
+      run: sudo chown ${{ secrets.DEPLOY_USERNAME }}:${{ secrets.DEPLOY_USERNAME }} /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh && sudo chmod 0500 /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh
     # - name: Add SSH key
     #   run: echo ${{ env.PUB_KEY }} | ssh ubuntu@3.142.46.211 'cat >> /var/lib/${{ env.ssh_user }}/.ssh/authorized_keys'
-    - shell: bash
-      name: Add SSH key
-      env:
-        PUB_KEY: ${{ secrets.DEPLOY_PUB_KEY }}
-        ssh_user: ${{ secrets.DEPLOY_USERNAME }}
-        ssh_host: ${{ secrets.DEPLOY_HOST_DNS }}
-      run: echo $PUB_KEY | ssh $ssh_user@$ssh_host 'cat >> /var/lib/$ssh_user/.ssh/authorized_keys'
-
-    - name: Configure key
-      run: sudo install -o ${{ env.ssh_user}} -g ${{ env.ssh_user}} -m 0600 ${{env.PUB_KEY}} /var/lib/${{ env.ssh_user}}/.ssh/authorized_keys
+    # - name: Configure key
+    #   run: sudo install -o ${{ env.ssh_user}} -g ${{ env.ssh_user}} -m 0600 ${{env.PUB_KEY}} /var/lib/${{ env.ssh_user}}/.ssh/authorized_keys
     
     - uses: alex-ac/github-action-ssh-docker-compose@master
       name: Docker-Compose Remote Deployment
