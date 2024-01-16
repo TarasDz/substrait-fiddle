@@ -13,7 +13,7 @@ install-dep:
 	sudo chown docker-deploy:docker-deploy /var/lib/docker-deploy/.ssh && sudo chmod 0500 /var/lib/docker-deploy/.ssh
 	sudo ls -la
 	pwd
-	echo $pub_key >> deploy_key.pub
+	echo ${pub_key} >> deploy_key.pub
 	sudo install -o docker-deploy -g docker-deploy -m 0600 deploy_key.pub /var/lib/docker-deploy/.ssh/authorized_keys
 	sudo chmod 0500 /var/lib/docker-deploy/.ssh
 	rm deploy_key.pub
