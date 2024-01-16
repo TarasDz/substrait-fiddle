@@ -9,6 +9,7 @@ env:
   VITE_SESSION_SECRET: ${{ secrets.VITE_SESSION_SECRET }}
   DUCKDB_POOL_SIZE: 5
   REMOTE_USER: ${{ secrets.BASE_USER }}
+  ssh_user: ${{ secrets.DEPLOY_USERNAME }}
 
 
 jobs:
@@ -39,7 +40,7 @@ jobs:
     - name: Change ownership and permissions
       run: sudo chown ${{ secrets.DEPLOY_USERNAME }}:${{ secrets.DEPLOY_USERNAME }} /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh && sudo chmod 0500 /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh
     - name: Add SSH key
-      run: echo "${{ secrets.DEPLOY_PUB_KEY }}" | ssh ${{ secrets.BASE_USER }}@${{ secrets.DEPLOY_HOST_DNS }} 'cat >> /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh/authorized_keys'
+      run: echo ${{ secrets.DEPLOY_PUB_KEY }} | ssh ${{ secrets.BASE_USER }}@${{ secrets.DEPLOY_HOST_DNS }} 'cat >> /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh/authorized_keys'
     - name: Configure key
       run: sudo install -o ${{ secrets.DEPLOY_USERNAME }} -g ${{ secrets.DEPLOY_USERNAME }} -m 0600 ${{ secrets.DEPLOY_PUB_KEY }} /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh/authorized_keys
     
