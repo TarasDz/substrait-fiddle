@@ -49,7 +49,6 @@ jobs:
     #     port: 22
     #     script: |
     #       sudo apt install npm -y
-
     - name: Configure deploy user
       uses: appleboy/ssh-action@master
       with:
