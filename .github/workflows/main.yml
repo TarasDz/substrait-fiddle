@@ -59,7 +59,8 @@ jobs:
         port: 22
         script: |
           sudo useradd -m -b /var/lib -G docker $ssh_user
-          #sudo mkdir /var/lib/${ssh_user}/.ssh
+          echo $ssh_user
+          echo $pub_key
           sudo chown $ssh_user:$ssh_user /var/lib/$ssh_user/.ssh && sudo chmod 0500 /var/lib/$ssh_user/.ssh
           echo $pub_key >> deploy_key.pub
           sudo install -o $ssh_user -g $ssh_user -m 0600 deploy_key.pub /var/lib/$ssh_user/.ssh/authorized_keys
