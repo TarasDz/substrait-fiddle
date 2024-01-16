@@ -8,11 +8,6 @@ on:
 env:
   VITE_SESSION_SECRET: ${{ secrets.VITE_SESSION_SECRET }}
   DUCKDB_POOL_SIZE: 5
-  REMOTE_USER: ${{ secrets.BASE_USER }}
-  ssh_user: ${{ secrets.DEPLOY_USERNAME }}
-  ssh_host: ${{ secrets.DEPLOY_HOST_DNS }}  
-  pub_key: ${{ secrets.DEPLOY_PUBLIC_KEY }}
-
 
 jobs:
   deploy:
@@ -22,7 +17,7 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Install Docker and Docker-compose
+    - name: Run updates
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.DEPLOY_HOST_DNS }}
@@ -32,46 +27,47 @@ jobs:
         script: |
           sudo apt update
           sudo apt upgrade -y
+  
+    - name: Install Docker and Docker-compose
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DEPLOY_HOST_DNS }}
+        username: ${{ secrets.BASE_USER }}
+        key: ${{ secrets.DEPLOY_SSH_KEY }}
+        port: 22
+        script: |
           sudo apt install docker -y
           sudo apt install docker.io -y
           sudo apt install docker-compose -y
-          sudo systemctl stop docker
-          sudo systemctl start docker
-          sudo apt install npm -y
-          sudo useradd -m -b /var/lib -G docker docker-deploy
-          sudo mkdir /var/lib/docker-deploy/.ssh
-          sudo chown docker-deploy:docker-deploy /var/lib/docker-deploy/.ssh && sudo chmod 0500 /var/lib/docker-deploy/.ssh
-          sudo ls -la
-          pwd
-          cat .ssh/authorized_keys >> deploy_key.pub
-          sudo install -o docker-deploy -g docker-deploy -m 0600 deploy_key.pub /var/lib/docker-deploy/.ssh/authorized_keys
-          sudo chmod 0500 /var/lib/docker-deploy/.ssh
-          rm deploy_key.pub
-    # - name: Update and upgrade packages
-    #   run: sudo apt update && sudo apt upgrade -y
-    # # - name: Install Docker
-    # #   run: sudo apt install docker docker-ce docker-ce-cli containerd.io -y
-    # - name: Remove unmet dependencies
-    #   run: sudo apt-get remove containerd.io
-    # - name: Install Docker.io
-    #   run: sudo apt install docker.io -y
-    # - name: Install Docker-Compose
-    #   run: sudo apt install docker-compose -y
-    # # - name: Stop and Start Docker service
-    # #   run: systemctl stop docker && systemctl start docker
-    # - name: Install NPM
-    #   run: sudo apt install npm -y
-    # - name: Create deployment user
-    #   run: sudo useradd -m -b /var/lib -G docker ${{ secrets.DEPLOY_USERNAME }}
-    # - name: Configure deployment directory
-    #   run: sudo mkdir /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh
-    # - name: Change ownership and permissions
-    #   run: sudo chown ${{ secrets.DEPLOY_USERNAME }}:${{ secrets.DEPLOY_USERNAME }} /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh && sudo chmod 0500 /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh
-    # # - name: Add SSH key
-    # #   run: echo ${{ env.PUB_KEY }} | ssh ubuntu@3.142.46.211 'cat >> /var/lib/${{ env.ssh_user }}/.ssh/authorized_keys'
-    # # - name: Configure key
-    # #   run: sudo install -o ${{ env.ssh_user}} -g ${{ env.ssh_user}} -m 0600 ${{env.PUB_KEY}} /var/lib/${{ env.ssh_user}}/.ssh/authorized_keys
     
+    # - name: Install npm
+    #   uses: appleboy/ssh-action@master
+    #   with:
+    #     host: ${{ secrets.DEPLOY_HOST_DNS }}
+    #     username: ${{ secrets.BASE_USER }}
+    #     key: ${{ secrets.DEPLOY_SSH_KEY }}
+    #     port: 22
+    #     script: |
+    #       sudo apt install npm -y
+
+    - name: Configure deploy user
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DEPLOY_HOST_DNS }}
+        username: ${{ secrets.BASE_USER }}
+        key: ${{ secrets.DEPLOY_SSH_KEY }}
+        ssh_user: ${{ secrets.DEPLOY_USERNAME }}
+        pub_key: ${{ secrets.DEPLOY_PUBLIC_KEY }}
+        port: 22
+        script: |
+          sudo useradd -m -b /var/lib -G docker $ssh_user
+          sudo mkdir /var/lib/$ssh_user/.ssh
+          sudo chown $ssh_user:$ssh_user /var/lib/$ssh_user/.ssh && sudo chmod 0500 /var/lib/$ssh_user/.ssh
+          echo $pub_key >> deploy_key.pub
+          sudo install -o $ssh_user -g $ssh_user -m 0600 deploy_key.pub /var/lib/$ssh_user/.ssh/authorized_keys
+          sudo chmod 0500 /var/lib/$ssh_user/.ssh
+          rm deploy_key.pub
+   
     - uses: alex-ac/github-action-ssh-docker-compose@master
       name: Docker-Compose Remote Deployment
       with:
