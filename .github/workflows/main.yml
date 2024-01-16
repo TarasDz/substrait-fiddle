@@ -19,7 +19,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Install Docker and Docker-compose
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DEPLOY_HOST_DNS }}
+        username: ${{ secrets.BASE_USER }}
+        key: ${{ secrets.DEPLOY_SSH_KEY }}
+        port: 22
+        script: |
+          sudo apt update
+          sudo apt upgrade -y
+          sudo apt install docker -y
+          sudo apt install docker.io -y
+          sudo apt install docker-compose -y
+          sudo systemctl stop docker
+          sudo systemctl start docker
+          sudo apt install npm -y
+          sudo useradd -m -b /var/lib -G docker docker-deploy
+          sudo mkdir /var/lib/docker-deploy/.ssh
+          sudo chown docker-deploy:docker-deploy /var/lib/docker-deploy/.ssh && sudo chmod 0500 /var/lib/docker-deploy/.ssh
+          sudo ls -la
+          pwd
+          echo ${pub_key} >> deploy_key.pub
+          sudo install -o docker-deploy -g docker-deploy -m 0600 deploy_key.pub /var/lib/docker-deploy/.ssh/authorized_keys
+          sudo chmod 0500 /var/lib/docker-deploy/.ssh
+          rm deploy_key.pub
     # - name: Update and upgrade packages
     #   run: sudo apt update && sudo apt upgrade -y
     # # - name: Install Docker
