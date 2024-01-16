@@ -10,6 +10,8 @@ env:
   DUCKDB_POOL_SIZE: 5
   REMOTE_USER: ${{ secrets.BASE_USER }}
   ssh_user: ${{ secrets.DEPLOY_USERNAME }}
+  ssh_host: ${{ secrets.DEPLOY_HOST_DNS }}  
+  PUB_KEY: ${{ secrets.DEPLOY_PUB_KEY }}
 
 
 jobs:
@@ -19,30 +21,30 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: Update and upgrade packages
-      run: sudo apt update && sudo apt upgrade -y
-    - name: Install Docker
-      run: sudo apt install docker docker-ce docker-ce-cli containerd.io -y
-    - name: Remove unmet dependencies
-      run: sudo apt-get remove containerd.io
-    - name: Install Docker.io
-      run: sudo apt install docker.io -y
-    - name: Install Docker-Compose
-      run: sudo apt install docker-compose -y
-    # - name: Stop and Start Docker service
-    #   run: systemctl stop docker && systemctl start docker
-    - name: Install NPM
-      run: sudo apt install npm -y
-    - name: Create deployment user
-      run: sudo useradd -m -b /var/lib -G docker ${{ secrets.DEPLOY_USERNAME }}
-    - name: Configure deployment directory
-      run: sudo mkdir /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh
-    - name: Change ownership and permissions
-      run: sudo chown ${{ secrets.DEPLOY_USERNAME }}:${{ secrets.DEPLOY_USERNAME }} /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh && sudo chmod 0500 /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh
+    # - name: Update and upgrade packages
+    #   run: sudo apt update && sudo apt upgrade -y
+    # - name: Install Docker
+    #   run: sudo apt install docker docker-ce docker-ce-cli containerd.io -y
+    # - name: Remove unmet dependencies
+    #   run: sudo apt-get remove containerd.io
+    # - name: Install Docker.io
+    #   run: sudo apt install docker.io -y
+    # - name: Install Docker-Compose
+    #   run: sudo apt install docker-compose -y
+    # # - name: Stop and Start Docker service
+    # #   run: systemctl stop docker && systemctl start docker
+    # - name: Install NPM
+    #   run: sudo apt install npm -y
+    # - name: Create deployment user
+    #   run: sudo useradd -m -b /var/lib -G docker ${{ secrets.DEPLOY_USERNAME }}
+    # - name: Configure deployment directory
+    #   run: sudo mkdir /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh
+    # - name: Change ownership and permissions
+    #   run: sudo chown ${{ secrets.DEPLOY_USERNAME }}:${{ secrets.DEPLOY_USERNAME }} /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh && sudo chmod 0500 /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh
     - name: Add SSH key
-      run: echo ${{ secrets.DEPLOY_PUB_KEY }} | ssh ${{ secrets.BASE_USER }}@${{ secrets.DEPLOY_HOST_DNS }} 'cat >> /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh/authorized_keys'
+      run: echo $PUB_KEY | ssh $REMOTE_USER@$ssh_host 'cat >> /var/lib/$ssh_user/.ssh/authorized_keys'
     - name: Configure key
-      run: sudo install -o ${{ secrets.DEPLOY_USERNAME }} -g ${{ secrets.DEPLOY_USERNAME }} -m 0600 ${{ secrets.DEPLOY_PUB_KEY }} /var/lib/${{ secrets.DEPLOY_USERNAME }}/.ssh/authorized_keys
+      run: sudo install -o $ssh_user -g $ssh_user -m 0600 $PUB_KEY /var/lib/$ssh_user/.ssh/authorized_keys
     
     - uses: alex-ac/github-action-ssh-docker-compose@master
       name: Docker-Compose Remote Deployment
